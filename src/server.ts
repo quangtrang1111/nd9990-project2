@@ -30,9 +30,10 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
 
     try {
       const result = await filterImageFromURL(image_url);
-      res.status(200).sendFile(result);
 
-      await deleteLocalFiles([result]);
+      res.status(200).sendFile(result, () => {
+        deleteLocalFiles([result]);
+      });
     } catch (error) {
       return res.status(400).send(error);
     }
