@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import {filterImageFromURL, deleteLocalFiles} from './util/util';
 
@@ -21,7 +21,7 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
   
   // Filter Image Endpoint
   // Download image public URL then return that image local path
-  app.get( "/filteredimage", async ( req, res ) => {
+  app.get( "/filteredimage", async ( req: Request, res: Response ) => {
     const { image_url } = req.query;
 
     if (!image_url) {
@@ -29,7 +29,7 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
     }
 
     try {
-      const result = await filterImageFromURL(image_url);
+      const result: string = await filterImageFromURL(image_url);
 
       res.status(200).sendFile(result, () => {
         deleteLocalFiles([result]);
